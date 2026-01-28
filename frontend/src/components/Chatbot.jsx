@@ -1,22 +1,21 @@
 import { useState, useRef, useEffect } from 'react'
-import axios from 'axios'
 import './Chatbot.css'
 
 export default function Chatbot() {
   const [isOpen, setIsOpen] = useState(false)
   const [messages, setMessages] = useState([
-    { id: 1, text: "Hi! I'm Saleh's portfolio assistant. What would you like to know?", sender: 'bot', showOptions: true }
+    { id: 1, text: "Hi there! 👋 I'm Saleh's portfolio assistant. How can I help you today?", sender: 'bot', showOptions: true }
   ])
   const [inputValue, setInputValue] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const messagesEndRef = useRef(null)
 
   const chatOptions = [
-    { id: 'about', label: 'About Me' },
-    { id: 'skills', label: 'My Skills' },
-    { id: 'projects', label: 'My Projects' },
-    { id: 'contact', label: 'Contact Info' },
-    { id: 'experience', label: 'My Experience' }
+    { id: 'about', label: '👨‍💻 About Me', icon: '👨‍💻' },
+    { id: 'skills', label: '🛠️ My Skills', icon: '🛠️' },
+    { id: 'projects', label: '🚀 My Projects', icon: '🚀' },
+    { id: 'contact', label: '📬 Contact Info', icon: '📬' },
+    { id: 'experience', label: '💼 Experience', icon: '💼' }
   ]
 
   const scrollToBottom = () => {
@@ -41,57 +40,44 @@ export default function Chatbot() {
     setInputValue('')
     setIsLoading(true)
 
-    try {
-      const response = await axios.post('/api/chat', {
-        message: inputValue
-      })
-
+    // Simulate response for demo purposes
+    setTimeout(() => {
       const botMessage = {
         id: messages.length + 2,
-        text: response.data.response,
+        text: "Thanks for your message! Feel free to explore my portfolio or use the quick options above to learn more about me.",
         sender: 'bot',
-        showOptions: !inputValue.toLowerCase().includes('contact') && 
-                     !inputValue.toLowerCase().includes('about') &&
-                     !inputValue.toLowerCase().includes('skill') &&
-                     !inputValue.toLowerCase().includes('project') &&
-                     !inputValue.toLowerCase().includes('experience')
+        showOptions: true
       }
       setMessages(prev => [...prev, botMessage])
-    } catch (error) {
-      const errorMessage = {
-        id: messages.length + 2,
-        text: 'Sorry, I encountered an error. Please try again.',
-        sender: 'bot'
-      }
-      setMessages(prev => [...prev, errorMessage])
-    }
-
-    setIsLoading(false)
+      setIsLoading(false)
+    }, 500)
   }
 
   const handleOptionClick = (optionId) => {
-    const optionLabel = chatOptions.find(opt => opt.id === optionId)?.label
+    const option = chatOptions.find(opt => opt.id === optionId)
     
-    // Add user message
     const userMessage = {
       id: messages.length + 1,
-      text: optionLabel,
+      text: option.label,
       sender: 'user'
     }
 
     setMessages(prev => [...prev, userMessage])
     setIsLoading(true)
 
-    // Simulate API response with predefined content
-    setTimeout(() => {
-      const responses = {
-        about: "I'm Saleh Saleh, a Full Stack Web Developer with practical experience building and deploying modern web applications. I specialize in both frontend and backend development, with a strong focus on clean code, performance, and real-world problem solving. I'm experienced in building REST APIs, working with databases, and integrating third-party services.",
-        skills: "Frontend: HTML, CSS, JavaScript, React.js, Vite, Responsive Design\n\nBackend: Node.js, Express.js, Python, Flask, RESTful APIs\n\nDatabases: MongoDB, MySQL\n\nTools & Platforms: Git & GitHub, Postman, VS Code, Linux Basics, Vercel, Render, Railway\n\nOther: API Integration, Authentication & Authorization, DevOps & Deployment, Problem Solving & Debugging",
-        projects: "1. Task Manager API - RESTful API for managing tasks with user authentication\n\n2. Full Stack Web Applications - Collection of projects using React and Node.js\n\n3. Backend Practice Projects - Multiple backend projects with Node.js and Python\n\nCheck my GitHub: github.com/SalehSafe",
-        contact: "Email: salehsafe963@gmail.com\n\nGitHub: https://github.com/SalehSafe\n\nLinkedIn: https://www.linkedin.com/in/saleh-saleh-42734929b/\n\nFeel free to reach out!",
-        experience: "• Building RESTful APIs with proper authentication\n• Frontend development with React\n• Backend development with Node.js and Python\n• Database design and optimization\n• Git version control and collaboration\n• Deployment to Vercel, Render, Railway\n• Problem solving and debugging"
-      }
+    const responses = {
+      about: `Hi! I'm Saleh Saleh, a Full Stack Web Developer with practical experience building and deploying modern web applications.\n\n🎯 I specialize in both frontend and backend development, with a strong focus on clean code, performance, and real-world problem solving.\n\n💡 I'm passionate about creating intuitive user experiences and building scalable solutions.`,
+      
+      skills: `Here's my tech stack:\n\n🎨 Frontend: HTML, CSS, JavaScript, React.js, TypeScript, Vite, Tailwind CSS\n\n⚙️ Backend: Node.js, Express.js, Python, Flask, RESTful APIs\n\n🗄️ Databases: MongoDB, MySQL\n\n🛠️ Tools: Git, GitHub, VS Code, Linux, Vercel, Render, Railway\n\n💪 Other: API Integration, Authentication, DevOps, Problem Solving`,
+      
+      projects: `🚀 Featured Projects:\n\n🛠️ Daily Tools Hub - A collection of utility tools (currency converter, weather, games, etc.)\n📋 Task Manager API - RESTful API with JWT authentication\n🌐 Full Stack Applications - React + Node.js projects\n⚙️ Backend Practice - Node.js and Python projects\n\nCheck out my live projects or visit my GitHub for more!`,
+      
+      contact: `📬 Get in touch:\n\n📧 Email: salehsafe963@gmail.com\n💻 GitHub: github.com/SalehSafe\n💼 LinkedIn: linkedin.com/in/saleh-saleh-42734929b/\n\nI'm always open to new opportunities and collaborations!`,
+      
+      experience: `💼 My Experience:\n\n✅ Building RESTful APIs with proper authentication\n✅ Frontend development with React and modern tools\n✅ Backend development with Node.js and Python\n✅ Database design and optimization\n✅ Git version control and collaboration\n✅ Deployment to Vercel, Render, Railway\n✅ Problem solving and debugging`
+    }
 
+    setTimeout(() => {
       const botMessage = {
         id: messages.length + 2,
         text: responses[optionId] || "Information not available",
@@ -111,13 +97,16 @@ export default function Chatbot() {
         onClick={() => setIsOpen(!isOpen)}
         title={isOpen ? 'Close chat' : 'Open chat'}
       >
-        💬
+        {isOpen ? '✕' : '💬'}
       </button>
 
       {isOpen && (
         <div className="chatbot-window">
           <div className="chatbot-header">
-            <h3>Chat with me</h3>
+            <h3>
+              <span className="chatbot-status"></span>
+              Portfolio Assistant
+            </h3>
             <button
               className="close-btn"
               onClick={() => setIsOpen(false)}
@@ -141,7 +130,7 @@ export default function Chatbot() {
                         className="option-btn"
                         onClick={() => handleOptionClick(option.id)}
                       >
-                        {option.label}
+                        {option.icon} {option.label.replace(option.icon + ' ', '')}
                       </button>
                     ))}
                   </div>
@@ -170,7 +159,7 @@ export default function Chatbot() {
               disabled={isLoading || !inputValue.trim()}
               className="send-btn"
             >
-              Send
+              ➤
             </button>
           </form>
         </div>

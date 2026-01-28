@@ -4,36 +4,48 @@ export default function Skills() {
   const skillCategories = [
     {
       name: 'Frontend',
-      skills: ['HTML', 'CSS', 'JavaScript', 'React.js', 'Vite', 'Responsive Design']
+      icon: '🎨',
+      skills: ['HTML5', 'CSS3', 'JavaScript', 'React.js', 'TypeScript', 'Tailwind CSS', 'Vite']
     },
     {
       name: 'Backend',
-      skills: ['Node.js', 'Express.js', 'Python', 'Flask', 'RESTful APIs']
+      icon: '⚙️',
+      skills: ['Node.js', 'Express.js', 'Python', 'Flask', 'RESTful APIs', 'JWT Auth']
     },
     {
       name: 'Databases',
-      skills: ['MongoDB', 'MySQL']
+      icon: '🗄️',
+      skills: ['MongoDB', 'MySQL', 'PostgreSQL']
     },
     {
       name: 'Tools & Platforms',
-      skills: ['Git & GitHub', 'Postman', 'VS Code', 'Linux Basics', 'Vercel', 'Render', 'Railway']
+      icon: '🛠️',
+      skills: ['Git', 'GitHub', 'VS Code', 'Postman', 'Vercel', 'Render', 'Railway']
     },
     {
-      name: 'Other',
-      skills: ['API Integration', 'Authentication & Authorization', 'DevOps & Deployment', 'Problem Solving & Debugging']
+      name: 'Other Skills',
+      icon: '💡',
+      skills: ['API Integration', 'Authentication', 'DevOps', 'Linux', 'Problem Solving', 'Debugging']
     }
   ]
 
   return (
     <section id="skills" className="skills">
-      <h2 className="section-title">Skills</h2>
+      <h2 className="section-title">Skills & Technologies</h2>
+      <p className="section-subtitle">
+        A comprehensive toolkit I use to bring ideas to life
+      </p>
+      
       <div className="skills-grid">
         {skillCategories.map((category, idx) => (
           <div key={idx} className="skill-category">
-            <h3>{category.name}</h3>
+            <div className="skill-category-header">
+              <div className="skill-category-icon">{category.icon}</div>
+              <h3>{category.name}</h3>
+            </div>
             <div className="skill-list">
-              {category.skills.map((skill, idx) => (
-                <span key={idx} className="skill-tag">{skill}</span>
+              {category.skills.map((skill, skillIdx) => (
+                <span key={skillIdx} className="skill-tag">{skill}</span>
               ))}
             </div>
           </div>
