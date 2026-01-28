@@ -1,0 +1,10 @@
+# Vercel Ignore File
+# Exclude backend from deployment (frontend only)
+
+backend/
+.venv/
+venv/
+.env
+*.log
+*.pyc
+__pycache__/

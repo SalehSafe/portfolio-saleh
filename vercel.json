@@ -2,8 +2,5 @@
   "buildCommand": "cd frontend && npm run build",
   "outputDirectory": "frontend/dist",
   "framework": "vite",
-  "installCommand": "cd frontend && npm install",
-  "ignore": [
-    "backend"
-  ]
+  "installCommand": "cd frontend && npm install"
 }
